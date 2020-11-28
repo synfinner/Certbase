@@ -5,6 +5,7 @@ import asyncio
 
 import dns
 import dns.resolver
+from time import sleep
 
 async def res(domain):
     try:
@@ -47,6 +48,15 @@ def callback(message, context):
 
 
 
+
 if __name__ == '__main__':
     certstream_url = 'wss://certstream.calidog.io'
-    certstream.listen_for_events(callback, url=certstream_url)
+    while True:
+        try:
+            certstream.listen_for_events(callback, url=certstream_url)
+        except ConnectionResetError:
+            sleep(3)
+            continue
+        except AttributeError:
+            sleep(2)
+            continue
