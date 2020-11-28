@@ -10,8 +10,9 @@ from time import sleep
 async def res(domain):
     try:
         result = dns.resolver.resolve(domain, 'A')[0]
-    except:
-        result = ""
+    except KeyboardInterrupt:
+        print("Killing Certbase...")
+        exit()
     return result
 
 
