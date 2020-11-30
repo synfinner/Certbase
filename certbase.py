@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import certstream
 import asyncio
 import dns
@@ -32,7 +33,7 @@ async def parse(vals):
         if "webdisk." in domain:
             continue
         resolved = await res(domain)
-        print(domain.lower(),"-",resolved)
+        print(domain.lower(),"-",resolved,flush = True)
         outfile = open("output.txt",'a')
         data = domain.lower()+","+str(resolved)+"\n"
         outfile.write(data)
