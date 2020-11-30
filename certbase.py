@@ -5,11 +5,14 @@ import asyncio
 
 import dns
 import dns.resolver
+from dns.exception import DNSException
 from time import sleep
 
 async def res(domain):
     try:
         result = dns.resolver.resolve(domain, 'A')[0]
+    except DNSException:
+        result = ""
     except KeyboardInterrupt:
         print("Killing Certbase...")
         exit()
