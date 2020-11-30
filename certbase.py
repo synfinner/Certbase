@@ -2,7 +2,6 @@
 
 import certstream
 import asyncio
-
 import dns
 import dns.resolver
 from dns.exception import DNSException
@@ -17,7 +16,6 @@ async def res(domain):
         print("Killing Certbase...")
         exit()
     return result
-
 
 async def parse(vals):
     for domain in vals:
@@ -48,10 +46,6 @@ def callback(message, context):
     if message['message_type'] == "certificate_update":
         all_domains = message['data']['leaf_cert']['all_domains']
         loop.run_until_complete(parse(all_domains))
-
-
-
-
 
 if __name__ == '__main__':
     certstream_url = 'wss://certstream.calidog.io'
