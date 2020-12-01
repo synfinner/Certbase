@@ -8,6 +8,11 @@ import dns.resolver
 from dns.exception import DNSException
 from time import sleep
 
+def on_error(instance, exception):
+    print("Exception in CertStream. sleeping...: -> {}".format(exception))
+    sleep(3)
+    return
+
 async def res(domain):
     try:
         result = dns.resolver.resolve(domain, 'A')[0]
@@ -19,6 +24,8 @@ async def res(domain):
     return result
 
 async def parse(vals):
+    if len(vals) == 0:
+        return
     for domain in vals:
         if "*." in domain:
             continue
@@ -52,7 +59,7 @@ if __name__ == '__main__':
     certstream_url = 'wss://certstream.calidog.io'
     while True:
         try:
-            certstream.listen_for_events(callback, url=certstream_url)
+            certstream.listen_for_events(callback, url=certstream_url,on_error=on_error)
         except ConnectionResetError:
             sleep(3)
             continue
